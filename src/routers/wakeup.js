@@ -73,6 +73,13 @@ module.exports.entrypoint =
     case 'POST':
       processWakeUpQuery(body, request, response, cb);
       break;
+    case 'OPTIONS':
+      // CORS support
+      log.debug('WU_ListenerHTTP_WakeUpRouter --> Received an OPTIONS method');
+      response.setHeader('Access-Control-Allow-Origin', '*');
+      response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      response.statusCode = 200;
+      break;
     default:
       response.setHeader('Content-Type', 'text/plain');
       response.statusCode = 405;
