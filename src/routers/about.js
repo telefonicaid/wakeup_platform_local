@@ -21,8 +21,9 @@ module.exports.info = {
 
 module.exports.entrypoint = function router_about(parsedURL, body, req, res) {
   // <tracking-id> -- about -- <DN=Name> -- <external-ip>
-  log.info(req.headers['x-tracking-id'] + ' -- about -- ' +
-    req.headers['x-client-cert-dn'] + ' -- ip=' + req.headers['x-real-ip']);
+  log.info(Date.now() + ' -- ' + req.headers['x-tracking-id'] +
+    ' -- about -- ' + req.headers['x-client-cert-dn'] + ' -- ip=' +
+    req.headers['x-real-ip']);
   res.setHeader('Content-Type', 'text/html;charset=UTF-8');
   res.statusCode = 200;
   res.write('<html><head>');

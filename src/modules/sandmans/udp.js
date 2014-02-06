@@ -26,9 +26,11 @@ module.exports.entrypoint = function sandman_udp(ip, port,
     port, ip,
     function(err, bytes) {
       if (err) {
-        log.info(tracking_id + ' -- ' + ip + ':' + port + ' -- udp -- KO');
+        log.info(Date.now() + ' -- ' + tracking_id + ' -- ' + ip +
+          ':' + port + ' -- udp -- KO');
       } else {
-        log.info(tracking_id + ' -- ' + ip + ':' + port + ' -- udp -- OK');
+        log.info(Date.now() + ' -- ' + tracking_id + ' -- ' + ip +
+          ':' + port + ' -- udp -- OK');
         udp4Client.close();
       }
     });

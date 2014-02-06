@@ -56,10 +56,10 @@ function processWakeUpQuery(paramsString, request, response, cb) {
     return;
   }
 
-  log.info(request.headers['x-tracking-id'] + ' -- wakeup -- ' +
-    request.headers['x-client-cert-dn'] + ' -- ' + wakeup_data.ip +
-    ':' + wakeup_data.port + ' -- ' + wakeup_data.protocol + ' -- ' +
-    request.headers['x-real-ip']);
+  log.info(Date.now() + ' -- ' + request.headers['x-tracking-id'] +
+    ' -- wakeup -- ' + request.headers['x-client-cert-dn'] + ' -- ' +
+    wakeup_data.ip + ':' + wakeup_data.port + ' -- ' + wakeup_data.protocol +
+    ' -- ' + request.headers['x-real-ip']);
 
   response.statusCode = 200;
   response.write('Accepted');

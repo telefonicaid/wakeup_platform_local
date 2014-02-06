@@ -28,10 +28,12 @@ module.exports.entrypoint = function sandman_tcp(ip, port,
     });
   tcp4Client.on('error', function(e) {
     log.debug('TCP Client error ' + JSON.stringify(e));
-    log.info(tracking_id + ' -- ' + ip + ':' + port + ' -- tcp -- KO');
+    log.info(Date.now() + ' -- ' + tracking_id + ' -- ' + ip +
+      ':' + port + ' -- tcp -- KO');
   });
   tcp4Client.on('end', function() {
     log.debug('TCP Client disconected');
-    log.info(tracking_id + ' -- ' + ip + ':' + port + ' -- tcp -- OK');
+    log.info(Date.now() + ' -- ' + tracking_id + ' -- ' + ip +
+      ':' + port + ' -- tcp -- OK');
   });
 };
