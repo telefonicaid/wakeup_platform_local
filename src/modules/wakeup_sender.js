@@ -18,13 +18,13 @@ function wakeup_sender() {
 }
 
 wakeup_sender.prototype = {
-  wakeup: function _wakeup(ip, port, protocol) {
-    log.debug('WU_Sender::wakeup => ' + ip + ':' + port + ' through ' +
-      protocol);
+  wakeup: function _wakeup(ip, port, protocol, tracking_id) {
+    log.debug('WU_Sender::wakeup => ' + tracking_id + ', ' +
+      ip + ':' + port + ' through ' + protocol);
     var message = new Buffer('NOTIFY ' + ip + ':' + port);
 
     if (sandmans[protocol]) {
-      sandmans[protocol](ip, port, message);
+      sandmans[protocol](ip, port, message, tracking_id);
     } else {
       log.error('Protocol (' + protocol + ') not supported');
     }

@@ -17,7 +17,8 @@ module.exports.info = {
   description: 'This sandman will wakeup using UDP datagrams'
 };
 
-module.exports.entrypoint = function sandman_udp(ip, port, payload) {
+module.exports.entrypoint = function sandman_udp(ip, port,
+  payload, tracking_id) {
   // UDP Notification Message
   var udp4Client = dgram.createSocket('udp4');
   udp4Client.send(
@@ -25,9 +26,11 @@ module.exports.entrypoint = function sandman_udp(ip, port, payload) {
     port, ip,
     function(err, bytes) {
       if (err) {
-        log.info('Error sending UDP Datagram to ' + ip + ':' + port);
+        log.info(Date.now() + ' -- ' + tracking_id + ' -- ' + ip +
+          ':' + port + ' -- udp -- KO');
       } else {
-        log.info('UDP Datagram sent to ' + ip + ':' + port);
+        log.info(Date.now() + ' -- ' + tracking_id + ' -- ' + ip +
+          ':' + port + ' -- udp -- OK');
         udp4Client.close();
       }
     });

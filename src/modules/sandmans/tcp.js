@@ -17,7 +17,8 @@ module.exports.info = {
   description: 'This sandman will wakeup using TCP packets'
 };
 
-module.exports.entrypoint = function sandman_tcp(ip, port, payload) {
+module.exports.entrypoint = function sandman_tcp(ip, port,
+  payload, tracking_id) {
   // TCP Notification Message
   var tcp4Client = net.createConnection({host: ip, port: port},
     function() { //'connect' listener
@@ -27,10 +28,12 @@ module.exports.entrypoint = function sandman_tcp(ip, port, payload) {
     });
   tcp4Client.on('error', function(e) {
     log.debug('TCP Client error ' + JSON.stringify(e));
-    log.info('Error sending TCP Package to ' + ip + ':' + port);
+    log.info(Date.now() + ' -- ' + tracking_id + ' -- ' + ip +
+      ':' + port + ' -- tcp -- KO');
   });
   tcp4Client.on('end', function() {
     log.debug('TCP Client disconected');
-    log.info('TCP Package correctly sent to ' + ip + ':' + port);
+    log.info(Date.now() + ' -- ' + tracking_id + ' -- ' + ip +
+      ':' + port + ' -- tcp -- OK');
   });
 };
