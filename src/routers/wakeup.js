@@ -35,6 +35,8 @@ function processWakeUpQuery(paramsString, request, response, cb) {
     wakeup_data.protocol = 'udp';
   }
 
+  wakeup_data.tracking_id = request.headers['x-tracking-id'];
+
   // Check parameters
   if (!net.isIP(wakeup_data.ip) ||     // Is a valid IP address
       isNaN(wakeup_data.port) ||       // The port is a Number
@@ -54,9 +56,10 @@ function processWakeUpQuery(paramsString, request, response, cb) {
     return;
   }
 
-  // All Ok, we can wakeup the device !
-  log.debug('WU_ListenerHTTP_WakeUpRouter --> WakeUp IP = ' + wakeup_data.ip +
-    ':' + wakeup_data.port + ' through (' + wakeup_data.protocol + ')');
+  log.info(request.headers['x-tracking-id'] + ' -- wakeup -- ' +
+    request.headers['x-client-cert-dn'] + ' -- ' + wakeup_data.ip +
+    ':' + wakeup_data.port + ' -- ' + wakeup_data.protocol + ' -- ' +
+    request.headers['x-real-ip']);
 
   response.statusCode = 200;
   response.write('Accepted');

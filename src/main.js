@@ -19,7 +19,7 @@ function WU_Local_Server() {
 
 WU_Local_Server.prototype = {
   onWakeUpCommand: function(data) {
-    wakeup_sender.wakeup(data.ip, data.port, data.protocol);
+    wakeup_sender.wakeup(data.ip, data.port, data.protocol, data.tracking_id);
   },
 
   start: function() {
