@@ -1,4 +1,3 @@
-/* jshint node: true */
 /**
  * Wake Up Platform
  * (c) Telefonica Digital, 2014 - All rights reserved
@@ -7,48 +6,50 @@
  * Guillermo López Leal <gll at tid dot es>
  */
 
+'use strict';
+
 var request = require('request'),
     assert = require('assert'),
     vows = require('vows');
 
 vows.describe('Listener ABOUT').addBatch({
-  'about HTML page': {
-    topic: function() {
-      request({
-        url: 'http://localhost:9000/about',
-        headers: {
-          'x-real-ip': '127.0.0.1',
-          'x-forwarded-for': '127.0.0.1',
-          'x-client-cert-dn': 'DN=Testing',
-          'x-client-cert-verified': 'SUCCESS'
+    'about HTML page': {
+        topic: function() {
+            request({
+                url: 'http://localhost:9000/about',
+                headers: {
+                    'x-real-ip': '127.0.0.1',
+                    'x-forwarded-for': '127.0.0.1',
+                    'x-client-cert-dn': 'DN=Testing',
+                    'x-client-cert-verified': 'SUCCESS'
+                }
+            }, this.callback);
+        },
+
+        'Server responded with an about page': function(err, response, body) {
+            assert.isNull(err);
+            assert.isString(body);
+            assert.equal(response.statusCode, 200);
         }
-      }, this.callback);
     },
 
-    'Server responded with an about page': function(err, response, body) {
-      assert.isNull(err);
-      assert.isString(body);
-      assert.equal(response.statusCode, 200);
-    }
-  },
+    'about HTML page (using alias)': {
+        topic: function() {
+            request({
+                url: 'http://localhost:9000/',
+                headers: {
+                    'x-real-ip': '127.0.0.1',
+                    'x-forwarded-for': '127.0.0.1',
+                    'x-client-cert-dn': 'DN=Testing',
+                    'x-client-cert-verified': 'SUCCESS'
+                }
+            }, this.callback);
+        },
 
-  'about HTML page (using alias)': {
-    topic: function() {
-      request({
-        url: 'http://localhost:9000/',
-        headers: {
-          'x-real-ip': '127.0.0.1',
-          'x-forwarded-for': '127.0.0.1',
-          'x-client-cert-dn': 'DN=Testing',
-          'x-client-cert-verified': 'SUCCESS'
+        'Server responded with an about page': function(err, response, body) {
+            assert.isNull(err);
+            assert.isString(body);
+            assert.equal(response.statusCode, 200);
         }
-      }, this.callback);
-    },
-
-    'Server responded with an about page': function(err, response, body) {
-      assert.isNull(err);
-      assert.isString(body);
-      assert.equal(response.statusCode, 200);
     }
-  }
 }).export(module);

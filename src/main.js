@@ -1,4 +1,3 @@
-/* jshint node: true */
 /**
  * Wake Up Platform
  * (c) Telefonica Digital, 2014 - All rights reserved
@@ -7,51 +6,52 @@
  * Guillermo López Leal <gll at tid dot es>
  */
 
+'use strict';
+
 var config = require('./shared_libs/configuration'),
     log = require('./shared_libs/logger'),
-    plugins_loader = require('./shared_libs/plugins_loader');
-    ListenerHttp = require('./shared_libs/listener_http').ListenerHttp;
-    wakeup_sender = require('./modules/wakeup_sender');
+    pluginsLoader = require('./shared_libs/plugins_loader'),
+    ListenerHttp = require('./shared_libs/listener_http').ListenerHttp,
+    wakeupSender = require('./modules/wakeup_sender');
 
-function WU_Local_Server() {
-  this.http_listeners = [];
+function WULocalServer() {
+    this.httpListeners = [];
 }
 
-WU_Local_Server.prototype = {
-  onWakeUpCommand: function(data) {
-    wakeup_sender.wakeup(data.ip, data.port, data.protocol, data.tracking_id);
-  },
+WULocalServer.prototype = {
+    onWakeUpCommand: function(data) {
+        wakeupSender.wakeup(data.ip, data.port, data.protocol, data.trackingId);
+    },
 
-  start: function() {
-    // Start servers
-    plugins_loader.load('routers');
-    for (var a in config.interfaces) {
-      this.http_listeners[a] = new ListenerHttp(
-        config.interfaces[a].ip,
-        config.interfaces[a].port,
-        config.interfaces[a].ssl,
-        plugins_loader.getRouters(),
-        this.onWakeUpCommand);
-      this.http_listeners[a].init();
+    start: function() {
+        // Start servers
+        pluginsLoader.load('routers');
+        for (var a in config.interfaces) {
+            this.httpListeners[a] = new ListenerHttp(
+                config.interfaces[a].ip,
+                config.interfaces[a].port,
+                config.interfaces[a].ssl,
+                pluginsLoader.getRouters(),
+                this.onWakeUpCommand);
+            this.httpListeners[a].init();
+        }
+        log.info('WakeUp local server starting');
+    },
+
+    stop: function() {
+        log.info('WakeUp local server stopping');
+
+        this.httpListeners.forEach(function(server) {
+            server.stop();
+        });
+
+        log.info('WakeUp local server waiting 10 secs for all servers stops ...');
+        setTimeout(function() {
+            log.info('WakeUp local server - Bye !');
+            process.exit(0);
+        }, 10000);
     }
-
-    log.info('WakeUp local server starting');
-  },
-
-  stop: function() {
-    log.info('WakeUp local server stopping');
-
-    this.http_listeners.forEach(function(server) {
-      server.stop();
-    });
-
-    log.info('WakeUp local server waiting 10 secs for all servers stops ...');
-    setTimeout(function() {
-      log.info('WakeUp local server - Bye !');
-      process.exit(0);
-    }, 10000);
-  }
 };
 
-exports.WU_Local_Server = WU_Local_Server;
+exports.WULocalServer = WULocalServer;
 

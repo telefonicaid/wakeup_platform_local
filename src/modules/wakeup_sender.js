@@ -1,4 +1,3 @@
-/* jshint node: true */
 /**
  * Wake Up Platform
  * (c) Telefonica Digital, 2014 - All rights reserved
@@ -7,32 +6,33 @@
  * Guillermo López Leal <gll at tid dot es>
  */
 
+'use strict';
+
 var log = require('../shared_libs/logger'),
-    fs = require('fs'),
-    plugins_loader = require('../shared_libs/plugins_loader');
+    pluginsLoader = require('../shared_libs/plugins_loader');
 
-plugins_loader.load('modules/sandmans');
-var sandmans = plugins_loader.getSandmans();
+pluginsLoader.load('modules/sandmans');
+var sandmans = pluginsLoader.getSandmans();
 
-function wakeup_sender() {
+function WakeupSender() {
 }
 
-wakeup_sender.prototype = {
-  wakeup: function _wakeup(ip, port, protocol, tracking_id) {
-    log.debug('WU_Sender::wakeup => ' + tracking_id + ', ' +
-      ip + ':' + port + ' through ' + protocol);
-    var message = new Buffer('NOTIFY ' + ip + ':' + port);
+WakeupSender.prototype = {
+    wakeup: function _wakeup(ip, port, protocol, trackingId) {
+        log.debug('WU_Sender::wakeup => ' + trackingId + ', ' +
+          ip + ':' + port + ' through ' + protocol);
+        var message = new Buffer('NOTIFY ' + ip + ':' + port);
 
-    if (sandmans[protocol]) {
-      sandmans[protocol](ip, port, message, tracking_id);
-    } else {
-      log.error('Protocol (' + protocol + ') not supported');
+        if (sandmans[protocol]) {
+            sandmans[protocol](ip, port, message, trackingId);
+        } else {
+            log.error('Protocol (' + protocol + ') not supported');
+        }
     }
-  }
 };
 
-var wusender = new wakeup_sender();
+var wusender = new WakeupSender();
 function getWakeUpSender() {
-  return wusender;
+    return wusender;
 }
 module.exports = getWakeUpSender();

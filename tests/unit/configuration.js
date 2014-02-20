@@ -1,4 +1,3 @@
-/* jshint node: true */
 /**
  * Wake Up Platform
  * (c) Telefonica Digital, 2014 - All rights reserved
@@ -6,5 +5,7 @@
  * Fernando Rodríguez Sela <frsela at tid dot es>
  * Guillermo López Leal <gll at tid dot es>
  */
+
+'use strict';
 
 process.configuration = require('../../src/config.default.json');
