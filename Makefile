@@ -31,7 +31,7 @@ version.info:
 
 clean: clean_local clean_tests
 	@echo "Cleaning ..."
-	@find . -name "*log" -exec rm -f {} \;
+	@find . -name "*.log" -exec rm -f {} \;
 
 clean_local:
 	@echo "Cleaning local server instance ..."
@@ -40,7 +40,6 @@ clean_local:
 	@rm -rf src/shared_libs
 	@rm -f src/routers/shared*
 	@rm -rf output
-	@find . -name "*log" -exec rm -f {} \;
 
 clean_tests:
 	@echo "Cleaning tests auxiliar files ..."
