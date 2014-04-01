@@ -1,14 +1,7 @@
 {
-  "log4js": {
-    "appenders": [
-      {
-        "type": "file",
-        "filename": "NS_WakeUp.log",
-        "category": "WakeUp_Local"
-      },
-      { "type": "console" }
-    ],
-    "level": "ALL"
+  "log": {
+    "LOGLEVEL": 127,
+    "APPNAME": "WakeUp_Local"
   },
   "interfaces": [
     {

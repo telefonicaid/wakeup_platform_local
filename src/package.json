@@ -22,7 +22,6 @@
         "push"
     ],
     "dependencies": {
-        "log4js": "0.6.x"
     },
     "engines": {
         "node": "0.10.x"

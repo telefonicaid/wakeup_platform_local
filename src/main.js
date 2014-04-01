@@ -14,6 +14,8 @@ var config = require('./shared_libs/configuration'),
     ListenerHttp = require('./shared_libs/listener_http').ListenerHttp,
     wakeupSender = require('./modules/wakeup_sender');
 
+log.setParams(config.log);
+
 function WULocalServer() {
     this.httpListeners = [];
 }
