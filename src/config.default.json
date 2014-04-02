@@ -1,7 +1,7 @@
 {
   "log": {
-    "LOGLEVEL": 127,
-    "APPNAME": "WakeUp_Local"
+    "loglevel": 127,
+    "appname": "WakeUp_Local"
   },
   "interfaces": [
     {
